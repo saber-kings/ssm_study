@@ -5,7 +5,7 @@
     <!-- 数据库驱动 -->
     <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
     <!-- 数据库连接url -->
-    <property name="jdbcUrl">jdbc:mysql://localhost:3306/mavenTest_db?useSSL=false&amp;serverTimezone=Asia/Shanghai</property>
+    <property name="jdbcUrl">jdbc:mysql://localhost:3306/test01_db?useSSL=false&amp;serverTimezone=Asia/Shanghai</property>
     <!-- 数据库连接用户名 -->
     <property name="user">root</property>
     <!-- 数据库连接密码 -->

@@ -12,7 +12,7 @@
     <title>主页</title>
 </head>
 <body>
-<h2>为人抱薪者，不可使其冻毙于风雪!</h2>
+<h2>Hello World!</h2>
 ${pageContext.request.contextPath}
 <h3><a href="${pageContext.request.contextPath}/userFindListServlet">跳转到 用 户列表页面</a></h3>
 </body>
