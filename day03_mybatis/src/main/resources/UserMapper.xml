@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+    <!--根据编号查询用户-->
+    <select id="queryById" parameterType="int" resultType="com.qst.domain.User">
+        SELECT *, user_name AS userName FROM USER WHERE id = #{id}
+    </select>
+    <!--查询所有用户-->
+    <select id="queryUserList" resultType="com.qst.domain.User">
+        SELECT *, user_name AS userName FROM USER
+    </select>
+    <!--添加用户-->
+    <insert id="insertUser" parameterType="com.qst.domain.User">
+        INSERT INTO USER (id,user_name,attack) VALUES (NULL,#{userName},#{attack})
+    </insert>
+    <!--修改用户-->
+    <update id="updateUser" parameterType="com.qst.domain.User">
+        UPDATE USER SET user_name = #{userName},attack = #{attack} WHERE id = #{id}
+    </update>
+    <!--根据编号删除用户-->
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM USER WHERE id = #{id}
+    </delete>
+</mapper>
