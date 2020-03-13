@@ -5,6 +5,10 @@
 <configuration>
     <!--1.加载外部属性-->
     <properties resource="jdbc.properties"/>
+    <!--开启驼峰标示-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
 
     <typeAliases>
         <!--<typeAlias type="com.qst.domain.User" alias="User"/>-->
@@ -26,6 +30,10 @@
     </environments>
     <!--3.指定Mapper文件-->
     <mappers>
-        <mapper resource="com/qst/mapper/UserMapper.xml"/>
+       <!-- <mapper resource="com/qst/mapper/UserMapper.xml"/>方式一 使用项目的资源路径-->
+        <!--方式二 通过类的全路径名称-->
+        <!--<mapper class="com.qst.mapper.UserMapper"/>-->
+        <!--方式三 包扫描-->
+        <package name="com.qst.mapper"/>
     </mappers>
 </configuration>

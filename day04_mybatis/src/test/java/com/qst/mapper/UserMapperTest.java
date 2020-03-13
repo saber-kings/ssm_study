@@ -9,15 +9,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * @Auther:luanzhaofei@outlook.com
- * @Date:2020/3/12
+ * @Date:2020/3/13
  * @Description:com.qst.mapper
  * @version:1.0
  */
@@ -39,8 +36,8 @@ public class UserMapperTest {
 
     @Test
     public void findAll() {
-        //查看查询结果
         List<User> userList = userMapper.findAll();
+        //iter
         for (User user : userList) {
             System.out.println(user);
         }
@@ -48,14 +45,43 @@ public class UserMapperTest {
 
     @Test
     public void findById() {
-        User user = userMapper.findById(1);
+        User user = userMapper.findById(3);
         System.out.println(user);
     }
 
     @Test
-    public void findUP() {
-        User user = userMapper.findUP("haitangduoduo", "123");
-        System.out.println(user);
+    public void insertUser() {
+        User user = new User();
+        user.setUserName("王启年");
+        user.setAttack(3000);
+        userMapper.insertUser(user);
+        System.out.println("恭喜你,添加成功!");
+    }
+
+    @Test
+    public void updateUser() {
+        //先根据id查询
+        User user = userMapper.findById(1);
+
+        user.setUserName("陈萍萍");
+        user.setAttack(4000);
+
+        userMapper.updateUser(user);
+        System.out.println("恭喜你,修改成功了!");
+
+    }
+
+    @Test
+    public void deleteUser() {
+        userMapper.deleteUser(1);
+    }
+
+    @Test
+    public void findByName() {
+        List<User> userList = userMapper.findByName("吉");
+        for (User user : userList) {
+            System.out.println(user);
+        }
     }
 
     @After

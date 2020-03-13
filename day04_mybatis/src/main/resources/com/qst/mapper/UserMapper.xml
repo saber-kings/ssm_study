@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.UserMapper">
+    
+    <!--查询所有-->
+    <select id="findAll" resultType="User">
+        SELECT * FROM user
+    </select>
+    <!--根据id查询-->
+    <select id="findById" parameterType="int" resultType="User">
+         SELECT * FROM user WHERE id = #{id}
+    </select>
+    <!--添加用户-->
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO user(id,name,age) VALUES (NULL,#{name},#{age})
+    </insert>
+    <!--修改用户-->
+    <update id="updateUser" parameterType="User">
+        UPDATE user SET name = #{name},age = #{age} WHERE id = #{id}
+    </update>
+    <!--根据id 删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <!--模糊查询-->
+    <select id="findByName" parameterType="string" resultType="User">
+        SELECT * FROM user WHERE name like #{|%name%|}
+    </select>
+</mapper>
