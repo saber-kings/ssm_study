@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.UserMapper">
+        <sql id="mySQL">
+            id,user_name,password,name,age,sex,birthday,created,updated
+        </sql>
+        <sql id="mySQL2">
+            id,user_name,password,name
+        </sql>
+        <select id="queryAll" resultType="User">
+            SELECT <include refid="mySQL"></include> FROM user;
+        </select>
+        <select id="queryById" resultType="User">
+            SELECT <include refid="mySQL2"></include> FROM user WHERE id = #{id};
+        </select>
+        <!--需求1：查询所有男性用户， 如果输入了姓名，则按照姓名模糊查找；
+         如果没有输入则不管姓名-->
+        <select id="queryAllMale" resultType="User">
+            SELECT * FROM user
+            WHERE sex = 1
+            <if test="name !=null and name.trim() != ''">
+                and name like '%${name}%'
+            </if>
+        </select>
+
+        <!--需求2：查询所有用户，传递参数orderType，如果值为0，按照年龄升序排序，
+        如果为1则按照年龄降序排序，否则按照ID排序-->
+        <select id="queryAllSort" resultType="User">
+            SELECT * FROM user
+            <choose>
+                <when test="orderType01 == 0">
+                    ORDER BY age ASC
+                </when>
+                <when test="orderType01 == 1">
+                    ORDER BY age DESC
+                </when>
+                <otherwise>
+                    ORDER BY id ASC
+                </otherwise>
+            </choose>
+        </select>
+</mapper>
