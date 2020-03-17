@@ -1,10 +1,6 @@
 package com.qst.domain;
-
-import java.io.Serializable;
 import java.util.Date;
-
-public class User implements Serializable {
-
+public class User {
     private Long id;
     // 用户名
     private String userName;
@@ -20,9 +16,9 @@ public class User implements Serializable {
     private Date birthday;
     // 创建时间
     private Date created;
+
     // 更新时间
     private Date updated;
-
 
     public Long getId() {
         return id;
@@ -32,11 +28,11 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUserName() {
+    public String getuserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setuserName(String userName) {
         this.userName = userName;
     }
 
@@ -102,5 +98,4 @@ public class User implements Serializable {
                 + ", age=" + age + ", sex=" + sex + ", birthday=" + birthday + ", created=" + created
                 + ", updated=" + updated + "]";
     }
-
 }

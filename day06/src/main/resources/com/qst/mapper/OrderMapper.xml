@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.OrderMapper">
+
+    <!--需求1：查询订单的同时，查询出订单所属用户-->
+    <resultMap id="step01" type="Order" autoMapping="true">
+        <!--1.配置订单主键-->
+        <id property="oid" column="oid"/>
+        <!--2.关联用户信息-->
+        <association property="user" javaType="User" autoMapping="true">
+            <!--2.1配置关联用户主键-->
+            <id property="id" column="user_id"></id>
+        </association>
+    </resultMap>
+
+    <select id="query01" resultMap="step01">
+        SELECT o.*, u.*
+        FROM tb_order o
+                 LEFT JOIN tb_user u ON o.user_id = u.id
+        WHERE o.order_number = #{orderNumber}
+    </select>
+
+</mapper>

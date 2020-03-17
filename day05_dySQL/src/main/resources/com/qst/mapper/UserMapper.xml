@@ -3,42 +3,101 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qst.mapper.UserMapper">
-        <sql id="mySQL">
-            id,user_name,password,name,age,sex,birthday,created,updated
-        </sql>
-        <sql id="mySQL2">
-            id,user_name,password,name
-        </sql>
-        <select id="queryAll" resultType="User">
-            SELECT <include refid="mySQL"></include> FROM user;
-        </select>
-        <select id="queryById" resultType="User">
-            SELECT <include refid="mySQL2"></include> FROM user WHERE id = #{id};
-        </select>
-        <!--需求1：查询所有男性用户， 如果输入了姓名，则按照姓名模糊查找；
-         如果没有输入则不管姓名-->
-        <select id="queryAllMale" resultType="User">
-            SELECT * FROM user
-            WHERE sex = 1
-            <if test="name !=null and name.trim() != ''">
-                and name like '%${name}%'
-            </if>
-        </select>
+    <!--开启二级缓存-->
+    <cache/>
+    <sql id="mySQL">
+        id,user_name,password,name,age,sex,birthday,created,updated
+    </sql>
+    <sql id="mySQL2">
+        id,user_name,password,name
+    </sql>
+    <select id="queryAll" resultType="User">
+        SELECT <include refid="mySQL"></include> FROM user;
+    </select>
+    <select id="queryById" resultType="User">
+        SELECT <include refid="mySQL2"></include> FROM user WHERE id = #{id};
+    </select>
+    <!--需求1：查询所有男性用户， 如果输入了姓名，则按照姓名模糊查找；
+     如果没有输入则不管姓名-->
+    <select id="queryAllMale" resultType="User">
+        SELECT * FROM user
+        WHERE sex = 1
+        <if test="name !=null and name.trim() != ''">
+            and name LIKE '%${name}%'
+        </if>
+    </select>
 
-        <!--需求2：查询所有用户，传递参数orderType，如果值为0，按照年龄升序排序，
-        如果为1则按照年龄降序排序，否则按照ID排序-->
-        <select id="queryAllSort" resultType="User">
-            SELECT * FROM user
-            <choose>
-                <when test="orderType01 == 0">
-                    ORDER BY age ASC
-                </when>
-                <when test="orderType01 == 1">
-                    ORDER BY age DESC
-                </when>
-                <otherwise>
-                    ORDER BY id ASC
-                </otherwise>
-            </choose>
-        </select>
+    <!--需求2：查询所有用户，传递参数orderType，如果值为0，按照年龄升序排序，
+    如果为1则按照年龄降序排序，否则按照ID排序-->
+    <select id="queryAllSort" resultType="User">
+        SELECT * FROM user
+        <choose>
+            <when test="orderType01 == 0">
+                ORDER BY age ASC
+            </when>
+            <when test="orderType01 == 1">
+                ORDER BY age DESC
+            </when>
+            <otherwise>
+                ORDER BY id ASC
+            </otherwise>
+        </choose>
+    </select>
+    <!--需求3：查询所有用户， 如果有姓名不为空，则按照姓名模糊查找；
+     如果年龄也不为空，则还要满足年龄小于指定年龄。-->
+    <select id="queryAllByNA" resultType="User">
+        SELECT * FROM user
+        <where>
+            <if test="name != null and name.trim() != ''">
+                AND name LIKE '%${name}%'
+            </if>
+            <if test="age != null">
+                AND age &lt; #{age}
+            </if>
+        </where>
+    </select>
+
+    <!--需求4：修改用户信息，如果某字段为null，则不修改这个字段-->
+    <update id="updateUser">
+        UPDATE user
+        <set>
+            <if test="userName!=null and userName.trim()!=''">
+                user_name = #{userName},
+            </if>
+            <if test="password!=null and password.trim()!=''">
+                password = #{password},
+            </if>
+            <if test="name!=null and name.trim()!=''">
+                name = #{name},
+            </if>
+            <if test="age!=null">
+                age = #{age},
+            </if>
+            <if test="sex!=null">
+                sex = #{sex},
+            </if>
+            <if test="birthday!=null and birthday.trim()!=''">
+                birthday = #{birthday},
+            </if>
+            updated = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+    <!--需求5：根据多个ID查询用户-->
+    <select id="queryAllByIds" resultType="User">
+        SELECT * FROM user
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                AND id in
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <delete id="delUser">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
 </mapper>
