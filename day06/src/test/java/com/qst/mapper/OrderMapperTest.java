@@ -34,4 +34,16 @@ public class OrderMapperTest {
         Order order = orderMapper.query01("20200221001");
         System.out.println(order);
     }
+
+    @Test
+    public void query02() {
+        Order order = orderMapper.query02("20200221001");
+        System.out.println(order);
+    }
+
+    @Test
+    public void query03() {
+        Order order = orderMapper.query03("20200221001");
+        System.out.println(order);
+    }
 }

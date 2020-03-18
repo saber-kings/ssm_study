@@ -21,4 +21,44 @@
         WHERE o.order_number = #{orderNumber}
     </select>
 
+    <!--需求2:查询订单的同时，查询出订单所属用户,并且查询出所有订单详情-->
+    <resultMap id="step02" type="Order" autoMapping="true" extends="step01">
+        <!--3.关联订单项集合-->
+        <collection property="orderitemList" javaType="List" ofType="Orderitem" autoMapping="true">
+            <!--3.1配置订单项表主键-->
+            <id property="itemId" column="item_id"/>
+        </collection>
+    </resultMap>
+
+    <select id="query02"
+            resultMap="step02">
+        SELECT o.*, u.*, oi.*
+        FROM tb_order o
+                 LEFT JOIN tb_user u ON o.user_id = u.id
+                 LEFT JOIN tb_orderitem oi ON oi.order_id = o.oid
+        WHERE o.order_number = #{orderNumber};
+    </select>
+
+    <!--需求3：查询订单的同时，查询出订单所属用户,并且查询出所有订单详情，
+    及订单详情中的对应的商品信息-->
+    <resultMap id="step03" type="Order" autoMapping="true" extends="step01">
+        <!--3.关联订单项集合-->
+        <collection property="orderitemList" javaType="List" ofType="Orderitem" autoMapping="true">
+            <!--3.1配置订单项表主键-->
+            <id property="itemId" column="item_id"></id>
+            <!--3.2配置关联商品信息-->
+            <association property="product" javaType="Product" autoMapping="true">
+                <id property="pid" column="product_id"></id>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="query03" resultMap="step03">
+        SELECT o.*, u.*, oi.*, p.*
+        FROM tb_order o
+                 LEFT JOIN tb_user u ON o.user_id = u.id
+                 LEFT JOIN tb_orderitem oi ON oi.order_id = o.oid
+                 LEFT JOIN tb_product p ON oi.product_id = p.pid
+        WHERE o.order_number = #{orderNumber}
+    </select>
 </mapper>

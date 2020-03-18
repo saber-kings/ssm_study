@@ -4,6 +4,7 @@ public class Orderitem {
 	private Double totalPrice;
 	private Integer status;
 	private Product product;
+
 	public Double getTotalPrice() {
 		return totalPrice;
 	}

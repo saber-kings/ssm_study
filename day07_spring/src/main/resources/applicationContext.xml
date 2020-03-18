@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--配置Bean-->
+    <bean id="user" class="com.qst.spring.User"/>
+    <bean id="userDao" class="com.qst.dao.UserDaoImpl"/>
+    <bean id="userService" class="com.qst.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <!--默认的无参构造器实例化Bean-->
+    <bean id="bean01" class="com.qst.definition.Bean01"/>
+
+    <!--静态工厂方法初始化Bean-->
+    <bean id="bean02" class="com.qst.definition.Bean02Factory" factory-method="initBean"/>
+
+    <!--实例工厂方法实例化Bean-->
+    <bean id="bean03Factory" class="com.qst.definition.Bean03Factory"/>
+    <bean id="bean03" class="com.qst.definition.Bean03" factory-bean="bean03Factory" factory-method="createBean"/>
+
+    <!--第四种-->
+    <bean id="bean03_02" class="com.qst.definition.MyFactoryBean"/>
+
+    <!--作用域：单例-->
+    <bean id="singletonBean" class="com.qst.scope.SingletonBean"/>
+    <!--作用域：多例-->
+    <bean id="prototypeBean" class="com.qst.scope.PrototypeBean" scope="prototype"/>
+    <!--生命周期-->
+    <bean id="lifeCycle" class="com.qst.lifecycle.impl.LifeCycleImpl" init-method="init" destroy-method="destory"/>
+
+    <!--构造器 注入-->
+    <bean id="car" class="com.qst.di.Car">
+        <!-- 通过constructor-arg 注入构造器参数 -->
+        <!--
+            index 参数索引，第一个参数 0
+            name 参数名称
+            type 参数类型
+            value 注入简单类型值
+            ref 注入复杂对象引用
+         -->
+        <constructor-arg index="0" value="宝马"/>
+        <constructor-arg index="1" value="300000.00"/>
+    </bean>
+</beans>
