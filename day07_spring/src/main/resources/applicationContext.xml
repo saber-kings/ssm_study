@@ -39,7 +39,12 @@
             value 注入简单类型值
             ref 注入复杂对象引用
          -->
-        <constructor-arg index="0" value="宝马"/>
+        <constructor-arg index="0" value="赤兔"/>
         <constructor-arg index="1" value="300000.00"/>
+    </bean>
+
+    <bean id="hero" class="com.qst.di.Hero">
+        <property name="name01" value="关羽"/>
+        <property name="car01" ref="car"/>
     </bean>
 </beans>
