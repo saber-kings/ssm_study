@@ -16,6 +16,7 @@
 
     <!-- 集中定义依赖版本号 -->
     <properties>
+        <java.version>${JAVA_VERSION}</java.version>
         <junit.version>4.13</junit.version>
         <spring.version>5.2.4.RELEASE</spring.version>
         <mybatis.version>3.5.4</mybatis.version>
